@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const hostname = window.location.hostname;
+const API_BASE_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`;
+
 const API = axios.create({
-  baseURL: `http://${hostname}:5000/api`,
+  baseURL: `${API_BASE_URL}/api`,
 });
 
 // Interceptor to add Authorization Token to requests
@@ -58,8 +59,8 @@ export const completeOrder = async (orderId) => {
 };
 
 export const getInvoiceDownloadUrl = (orderId) => {
-  const hostname = window.location.hostname;
-  return `http://${hostname}:5000/api/orders/${orderId}/invoice`;
+  const API_BASE_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`;
+  return `${API_BASE_URL}/api/orders/${orderId}/invoice`;
 };
 
 // Admin API calls
