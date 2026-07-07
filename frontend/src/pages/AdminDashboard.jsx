@@ -31,7 +31,8 @@ import {
 } from 'lucide-react';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState('orders'); // orders | menu | history | analytics
+  const [activeTab, setActiveTab] = useState('orders');
+  const [isSaving, setIsSaving] = useState(false); // orders | menu | history | analytics
   const [adminUser, setAdminUser] = useState(null);
 
   const activeTabRef = React.useRef(activeTab);
@@ -520,12 +521,15 @@ const AdminDashboard = () => {
   // Menu Form Submit
   const handleMenuSubmit = async (e) => {
     e.preventDefault();
+    if (isSaving) return;
+    
     if (!menuForm.name || !menuForm.price || !menuForm.category) {
       alert("Please fill in Name, Price, and Category");
       return;
     }
 
     try {
+      setIsSaving(true);
       const priceNum = parseFloat(menuForm.price);
       const payload = { ...menuForm, price: priceNum };
 
@@ -537,8 +541,11 @@ const AdminDashboard = () => {
 
       setShowMenuModal(false);
       loadMenu();
-    } catch {
-      alert("Error saving menu item");
+    } catch (err) {
+      console.error(err);
+      alert("Error saving menu item: " + (err.response?.data?.message || err.message));
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -1086,8 +1093,9 @@ const AdminDashboard = () => {
               }}>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
                   const hostname = window.location.hostname;
-                  const qrUrl = `http://${hostname}:5000/qrcodes/table_${num}.png`;
-                  const tableUrl = `http://${hostname}:5173/order/${num}`;
+                  const API_BASE_URL = 'https://gloden-plate.onrender.com';
+                  const qrUrl = `${API_BASE_URL}/qrcodes/table_${num}.png`;
+                  const tableUrl = `https://gloden-plate.vercel.app/order/${num}`;
                   
                   return (
                     <div 
@@ -1526,8 +1534,9 @@ const AdminDashboard = () => {
                   type="submit" 
                   className="btn btn-primary" 
                   style={{ flex: 1, borderRadius: '8px' }}
+                  disabled={isSaving}
                 >
-                  Save Changes
+                  {isSaving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>
