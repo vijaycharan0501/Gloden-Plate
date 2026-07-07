@@ -4,5 +4,4 @@ node_modules/
 dist/
 build/
 backend/invoices/*.pdf
-backend/qrcodes/*.png
 backend/show_data.js
