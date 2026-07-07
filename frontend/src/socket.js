@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`;
+const URL = 'https://gloden-plate.onrender.com';
 
 export const socket = io(URL, {
   autoConnect: true,

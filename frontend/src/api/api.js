@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`;
+const API_BASE_URL = 'https://gloden-plate.onrender.com';
 
 const API = axios.create({
   baseURL: `${API_BASE_URL}/api`,
@@ -59,7 +59,7 @@ export const completeOrder = async (orderId) => {
 };
 
 export const getInvoiceDownloadUrl = (orderId) => {
-  const API_BASE_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`;
+  const API_BASE_URL = 'https://gloden-plate.onrender.com';
   return `${API_BASE_URL}/api/orders/${orderId}/invoice`;
 };
 
