@@ -1,0 +1,8 @@
+node_modules/
+.env
+.DS_Store
+dist/
+build/
+backend/invoices/*.pdf
+backend/qrcodes/*.png
+backend/show_data.js
